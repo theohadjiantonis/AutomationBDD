@@ -56,10 +56,31 @@ const splitString = (str, split, splitPart) =>{
     }
 }
 
+const replacePropertyValue = async (obj, pathArray, targetKey, newValue) => {
+    let currentObj = obj;
+
+    for (let i = 0; i < pathArray.length; i++) {
+        const pathKey = pathArray[i];
+        if (currentObj[pathKey] !== undefined) {
+            if (i === pathArray.length - 1 && pathKey === targetKey) {
+                currentObj[pathKey] = newValue;
+            } else if (i < pathArray.length - 1) {
+                currentObj = currentObj[pathKey];
+            }
+        } else {
+            // Property not found at the specified path
+            break;
+        }
+    }
+
+    return obj;
+}
+
 module.exports = {
     createDirectory,
     getDir,
     removeSpecials,
     splitString,
-    addBrowserLogs
+    addBrowserLogs,
+    replacePropertyValue
 }

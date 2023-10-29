@@ -30,30 +30,6 @@ class MochawesomeHelper extends Helper {
         currentTest = { test };
     }
 
-    _failed(test) {
-        let fileName;
-        let uuid;
-        // Get proper name if we are fail on hook
-        if (test.ctx.test.type === 'hook') {
-            test.ctx.test.skipInfo = 'skipped';
-            currentTest = { test: test.ctx.test };
-            // ignore retries if we are in hook
-            test._retries = -1;
-            fileName = removeSpecials(`${test.title}_${currentTest.test.title}`);
-        } else {
-            currentTest = { test };
-            fileName = removeSpecials(test.title);
-        }
-        if (this.options.uniqueScreenshotNames) {
-            uuid = test.uuid || test.ctx.test.uuid;
-            fileName = `${fileName.substring(0, 10)}_${uuid}`;
-        }
-        if (test._retries < 1 || test._retries === test.retryNum) {
-            fileName = `${fileName}.failed.png`;
-            return addContext(currentTest, fileName);
-        }
-    }
-
     addMochawesomeContext(context) {
         if (currentTest === '') currentTest = { test: currentSuite.ctx.test };
 

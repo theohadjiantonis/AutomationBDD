@@ -15,7 +15,13 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1,
+          "faker": {
+            "random.number": {
+              "min": 1
+            }
+          }
         },
         "name": {
           "type": "string"
@@ -44,7 +50,13 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 1,
+              "faker": {
+                "random.number": {
+                  "min": 1
+                }
+              }
             },
             "name": {
               "type": "string"
@@ -61,23 +73,17 @@
       "type": "string",
       "faker": {
         "oneOf": [
-          {
-            "$arrayElement": [
-              "available",
-              "pending",
-              "sold"
-            ]
-          }
+          { "$arrayElement": [ "available", "pending", "sold"] }
         ]
       }
-    },
-    "required": [
-      "id",
-      "category",
-      "name",
-      "photoUrls",
-      "tags",
-      "status"
-    ]
-  }
+    }
+  },
+  "required": [
+    "id",
+    "category",
+    "name",
+    "photoUrls",
+    "tags",
+    "status"
+  ]
 }

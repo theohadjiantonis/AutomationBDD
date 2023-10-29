@@ -2,13 +2,11 @@ const { I, Request } = inject();
 const jsf = require('json-schema-faker');
 const petSchema = require('.././JsonSchemas/pet_schema.json');
 
-//retrieve exchange rate
 const PetJson = async () => {
-    I.addMochawesomeContext({ title: 'Generate Pet Json'});
+    I.addMochawesomeContext({ title: 'GENERATING PET JSON', value: ""});
     try {
-        const schema = await fs.readJson(schemaFilePath);
-        const fakeData = jsf.generate(schema);
-        I.addMochawesomeContext({ title: 'Generated data from the schema:', value: fakeData });
+        const fakeData = jsf.generate(petSchema);
+        I.addMochawesomeContext({ title: 'PET JSON', value: fakeData });
         return fakeData;
     } catch (error) {
         I.addMochawesomeContext({ title: 'Something went wrong generating the Json:', value: error });
@@ -17,7 +15,7 @@ const PetJson = async () => {
 };
 
 const PostRequest = async (payload) => {
-    I.addMochawesomeContext({ title: 'SEND ADD PET POST REQUEST' });
+    I.addMochawesomeContext({ title: 'SEND ADD PET POST REQUEST', value: "" });
 
     endpoint = '/pet'
       data ={
@@ -27,15 +25,11 @@ const PostRequest = async (payload) => {
         },
         payload
       }
-    const response = await Request.Post(data);
-  
-    I.addMochawesomeContext({title: 'DEPOSIT STATUS', value: response.status});
-    I.addMochawesomeContext({title: 'DEPOSIT HEADERS', value: response.headers});
-    I.addMochawesomeContext({title: 'DEPOSIT DATA', value: response.data});
-
+    const response = await Request.Post(data);  
     return response;
 }
 
 module.exports = {
-    PetJson
+    PetJson,
+    PostRequest
 }

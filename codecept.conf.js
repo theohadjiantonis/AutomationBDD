@@ -1,4 +1,4 @@
-const { getDir } = require('./common_packages/transformative_functions');
+const { getDir } = require('./common_packages/common_functions');
 require('dotenv').config();
 
 exports.config = {
