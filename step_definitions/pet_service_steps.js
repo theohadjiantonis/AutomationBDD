@@ -3,7 +3,7 @@ const chai = require('chai');
 
 //common variables
 let payload, addPetResponse, findPetResponse;
-
+//---------------------------------------------------------GIVEN REQUESTS------------------------------------------------//
 Given('I have a pet for sale', async () => {
     payload = await PetService.PetJson();
 
@@ -17,7 +17,7 @@ Given("Its' {string} is {string}", async (propertyPath, value) => {
     //changing the property based on the path
     payload = await Common.replacePropertyValue(payload, pathArray, pathArray[pathArray.length - 1], value);
 });
-
+//---------------------------------------------------------WHEN STEPS------------------------------------------------//
 When('I send the pet request', async () => {
     //executes withdraw plan
     addPetResponse = await PetService.AddPet(payload)
@@ -45,8 +45,16 @@ When('I look for the pet with {string} {string}', async (findPetByTerm, findPetB
 
 });
 
+When('I update the pet', async () => {
+    //executes withdraw plan
+    addPetResponse = await PetService.UpdatePetPut(payload)
+
+    I.addMochawesomeContext({ title: "PET ID", value: addPetResponse.data });
+
+});
+//---------------------------------------------------------THEN STEPS------------------------------------------------//
 Then('The pet request is successful with status {int}', async (status) => {
-    I.addMochawesomeContext({ title: "ADD PET REQUEST RESPONSE", value: addPetResponse.data });
+    I.addMochawesomeContext({ title: "PET REQUEST RESPONSE", value: addPetResponse.data });
 
     chai.assert.equal(addPetResponse.status, status, `Status code is ${addPetResponse.status}`)
     chai.assert.equal(addPetResponse.data.id, payload.id, 'ID in response body is correct')

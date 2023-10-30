@@ -1,5 +1,4 @@
 const { I } = inject();
-const assert = require('chai').assert;
 
 module.exports = function () {
     return actor({
@@ -7,11 +6,10 @@ module.exports = function () {
             I.logApiRequest(`Get ${data.endpoint}`);
             try {
                 const response = await I.sendGetRequest(data.endpoint, data.headers);
-
                 return response;
 
             } catch (error) {
-                console.log(error)
+                return error;
             }
         },
 
@@ -21,32 +19,30 @@ module.exports = function () {
                 const response = await I.sendPostRequest(data.endpoint, data.payload, data.headers);
                 return response;
 
-            } catch (failures) {
-                return failures;
+            } catch (error) {
+                return error;
             }
         },
 
-        Patch: async function (data) {
+        Put: async function (data) {
             I.logApiRequest(data.payload, `PATCH ${data.endpoint}`);
             try {
-                const response = await I.sendPatchRequest(data.endpoint, data.payload, data.headers);
-                assert.equal(response.status, 200)
+                const response = await I.sendPutRequest(data.endpoint, data.payload, data.headers);
                 return response;
 
-            } catch (failures) {
-                console.log(failures)
+            } catch (error) {
+                return error;
             }
         },
 
         Delete: async function (data) {
-            I.logApiRequest(data.payload, `DEL ${data.endpoint}`);
+            I.logApiRequest(`DEL ${data.endpoint}`);
             try {
-                const response = await I.sendDeleteRequest(data.endpoint, data.payload, data.headers);
-                assert.equal(response.status, 200)
+                const response = await I.sendDeleteRequest(data.endpoint, data.headers);
                 return response;
 
-            } catch (failures) {
-                console.log(failures)
+            } catch (error) {
+                return error;
             }
         }
     });
