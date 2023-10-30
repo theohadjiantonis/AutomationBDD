@@ -98,7 +98,7 @@ const DeletePet = async (Id) => {
         endpoint,
         headers: {
             "Content-Type": "application/json",
-            "api_key": "someApiKey"
+            "api_key": secret("someApiKey")
         }
     };
     const response = await Request.Delete(data);

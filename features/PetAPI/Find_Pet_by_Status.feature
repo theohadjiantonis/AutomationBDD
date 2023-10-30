@@ -24,4 +24,4 @@ Scenario: Find pets with status asdlfknasdfl
     #Generates Json object
 	Given I have a pet for sale
 	When I look for the pet with "status" "asdlfknasdfl"
-	Then The Get Pet Response has error code 404 with message 'java.lang.NumberFormatException: For input string: \"Rex\"', type "unknown" and status 400
+	Then The Get Pet Response has error code 404 with message 'some error message', type "unknown" and status 400
