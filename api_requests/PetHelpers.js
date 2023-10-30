@@ -43,8 +43,23 @@ const FindPetById = async (Id) => {
     return response;
 }
 
+const FindPetByStatus = async (status) => {
+    I.addMochawesomeContext({ title: 'SEND FIND PET GET REQUEST', value: "" });
+
+    endpoint = `/pet/findByStatus?status=${status}`;
+    data = {
+        endpoint,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    const response = await Request.Get(data);
+    return response;
+}
+
 module.exports = {
     PetJson,
     AddPet,
-    FindPetById
+    FindPetById,
+    FindPetByStatus
 }
