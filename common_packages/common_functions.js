@@ -76,11 +76,18 @@ const replacePropertyValue = async (obj, pathArray, targetKey, newValue) => {
     return obj;
 }
 
+const parseToInt = async (value) => {
+   isNaN(parseInt(value, 10)) ? responseValue = value : responseValue = parseInt(value, 10);
+
+    return responseValue;
+};
+
 module.exports = {
     createDirectory,
     getDir,
     removeSpecials,
     splitString,
     addBrowserLogs,
-    replacePropertyValue
+    replacePropertyValue,
+    parseToInt
 }

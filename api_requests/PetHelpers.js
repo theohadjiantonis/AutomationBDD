@@ -14,7 +14,7 @@ const PetJson = async () => {
     }
 };
 
-const PostRequest = async (payload) => {
+const AddPet = async (payload) => {
     I.addMochawesomeContext({ title: 'SEND ADD PET POST REQUEST', value: "" });
 
     endpoint = '/pet'
@@ -29,7 +29,22 @@ const PostRequest = async (payload) => {
     return response;
 }
 
+const FindPetById = async (Id) => {
+    I.addMochawesomeContext({ title: 'SEND FIND PET GET REQUEST', value: "" });
+
+    endpoint = `/pet/${Id}`;
+    data = {
+        endpoint,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    const response = await Request.Get(data);
+    return response;
+}
+
 module.exports = {
     PetJson,
-    PostRequest
+    AddPet,
+    FindPetById
 }

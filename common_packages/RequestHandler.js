@@ -8,7 +8,7 @@ module.exports = function () {
             try {
                 const response = await I.sendGetRequest(data.endpoint, data.headers);
 
-                return response.data;
+                return response;
 
             } catch (error) {
                 console.log(error)
