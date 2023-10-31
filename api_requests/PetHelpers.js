@@ -1,5 +1,7 @@
 const { I, Request } = inject();
 const jsf = require('json-schema-faker');
+const fs = require('fs');
+const FormData = require('form-data');
 const petSchema = require('.././JsonSchemas/pet_schema.json');
 
 //Generate a Json from the schema
@@ -45,18 +47,28 @@ const UpdatePetForm = async (payload, id) => {
     return response;
 }
 
-const UploadPictureForm = async (payload, id) => {
+const UploadPictureForm = async (id, additionalMetadata = "") => {
     I.addMochawesomeContext({ title: 'UPLOAD PET PICTURE POST REQUEST', value: "" });
 
     endpoint = `/pet/${id}/uploadImage`
+    const fileStream = fs.createReadStream('./Images_For_Upload/dog.jpg');
+
+    const payload = new FormData();
+
+    payload.append("file", fileStream);
+    payload.append("additionalMetadata", additionalMetadata)
+
     data = {
         endpoint,
         headers: {
-            "Content-Type": "multipart/form-data"
+            "Content-Type": `multipart/form-data; boundary=${payload._boundary}`
         },
         payload
     }
     const response = await Request.Post(data);
+
+    //adding a small delay in case upload is slow 
+    I.wait(5);
     return response;
 }
 
