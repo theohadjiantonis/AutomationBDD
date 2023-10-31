@@ -1,7 +1,4 @@
-Feature: Add Pet Scenarios
-  In order to achieve my goals
-  As a username
-  I want to be able to make a withdraw
+Feature: Update Pet with Form Scenarios
 
 Scenario: Update a pet using a form
     #Generates Json object

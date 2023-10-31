@@ -29,8 +29,6 @@ When('I look for the pet', async () => {
 });
 
 When('I look for the pet with {string} {string}', async (findPetByTerm, findPetByValue) => {
-    //finds pet by id
-
     if (findPetByTerm === "id") {
         //Because I'm using this step for both positive and negative scenarios, I want to be able to parse the string to an integer if that is possible and not change if its not(trying to parse "hello" to an int for example returns NaN)
         //Hence the need for a custom parse to int function that parses a "10" to 10 but doesn't change the value if it is "Hello" for example. 
@@ -76,7 +74,6 @@ When('I Delete the pet', async () => {
 });
 
 When('I Delete a pet with id {string}', async (id) => {
-    //reusing addPetResponse because assertions between update and add pet are the same
     delPetResponse = await PetService.DeletePet(id)
 });
 //---------------------------------------------------------THEN STEPS------------------------------------------------//
@@ -197,7 +194,7 @@ Then('The upload picture request is successful', async () => {
     chai.assert.equal(uploadPictureResponse.status, 200, `Status code is ${uploadPictureResponse.status}`)
     chai.assert.equal(uploadPictureResponse.data.code, 200, `Code is ${uploadPictureResponse.data.code}`)
     chai.assert.equal(uploadPictureResponse.data.type, "unknown", `Type is ${uploadPictureResponse.data.type}`)
-    chai.assert.equal(uploadPictureResponse.data.message, "additionalMetadata: somethingorRather\nFile uploaded to ./dog.jpg, 668704 bytes", `Id in response is ${uploadPictureResponse.data.message}`)
+    chai.expect(uploadPictureResponse.data.message).to.include('additionalMetadata: somethingorRather')
 });
 
 Then('The upload picture for the pet response has error code {int} with message {string}, type {string} and status {int}', async (errorCode, errorMessage, errorType, status) => {

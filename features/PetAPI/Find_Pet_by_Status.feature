@@ -1,7 +1,5 @@
-Feature: Find Pet by ID Scenarios
-  In order to achieve my goals
-  As a username
-  I want to be able to make a withdraw
+Feature: Find Pet by Status Scenarios
+
 Scenario: Find pets with status available
     #Generates Json object
 	Given I have a pet for sale

@@ -1,7 +1,4 @@
-Feature: Find Pet by ID Scenarios
-  In order to achieve my goals
-  As a username
-  I want to be able to make a withdraw
+Feature: Delete Pet Scenarios
 
 Scenario: Delete pet that exists
     #Generates Json object

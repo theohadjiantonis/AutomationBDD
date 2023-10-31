@@ -1,7 +1,4 @@
 Feature: Add Pet Scenarios
-  In order to achieve my goals
-  As a username
-  I want to be able to make a withdraw
 
 Scenario: Add a pet
     #Generates Json object
@@ -28,6 +25,26 @@ Scenario: Invalid Id scenario
 	Given I have a pet for sale
 	#Can change specific parameter by providing the path to the property
 	And Its' "id" is "Rex"
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
+
+Scenario: Negative number for Id scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "id" is "-100"
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
+
+Scenario: Empty Id scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "id" is ""
     #Sends request
 	When I send the pet request
     #Verifies response was correct
