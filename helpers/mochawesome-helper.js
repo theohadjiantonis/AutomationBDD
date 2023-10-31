@@ -9,10 +9,6 @@ let currentSuite;
 class MochawesomeHelper extends Helper {
     constructor() {
         super();
-
-        this.options = {
-            uniqueScreenshotNames: true
-        };
     }
 
     _beforeSuite(suite) {

@@ -50,12 +50,142 @@ Scenario: Empty Id scenario
     #Verifies response was correct
 	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
 
-#The steps are written vaguely on purpose and without strong language which allows for the users to write high level, logically worded scenarios with very little coding effort.
-#With these 5 steps that I've written, we can cover all the scenarios that are related to this API with custom error messages, different statuses and error code responses. 
+Scenario: Invalid name scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "name" is "100"
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
 
-#The 5 steps:
-	#Given I have a pet for sale
-	#Given Its' {property that we want to modify} is {value of property}
-	#When I send the pet request
-	#Then The pet request request is successful with status 200	
-	#Then The pet request returns error code {error code in the response body} with message {message in the response body} , type {type in the response body} and status {request status}
+Scenario: Empty name scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "name" is ""
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
+
+Scenario: Invalid category name scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "category.name" is "100"
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
+
+Scenario: Empty category name scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "category.name" is ""
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
+
+Scenario: Invalid category Id scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "category.id" is "Rex"
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
+
+Scenario: Negative category number for Id scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "category.id" is "-100"
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
+
+Scenario: Empty category Id scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "category.id" is ""
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
+
+Scenario: Invalid tag name scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "tag[0].name" is "100"
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
+
+Scenario: Empty tag name scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "tag[0].name" is ""
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
+
+Scenario: Invalid tag Id scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "tag[0].id" is "Rex"
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
+
+Scenario: Negative tag number for Id scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "tag[0].id" is "-100"
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
+
+Scenario: Empty tag Id scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "tag[0].id" is ""
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
+
+Scenario: Invalid status scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "staus" is "asdfasfdasfd"
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
+
+Scenario: Empty status scenario
+    #Generates Json object
+	Given I have a pet for sale
+	#Can change specific parameter by providing the path to the property
+	And Its' "status" is ""
+    #Sends request
+	When I send the pet request
+    #Verifies response was correct
+	Then The response has error code 500 with message "something bad happened", type "unknown" and status 405
