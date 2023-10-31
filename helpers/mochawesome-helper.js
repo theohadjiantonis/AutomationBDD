@@ -37,7 +37,9 @@ class MochawesomeHelper extends Helper {
     }
 
     logApiRequest(data, message) {
-        const context = `${message}: ${stringify(data)}`;
+        let context;
+
+       typeof message === "undefined" ? context = `${stringify(data)}` : context = `${message}: ${stringify(data)}`;
 
         return this.addMochawesomeContext(context);
     }

@@ -2,7 +2,7 @@ const { PetService, I, Common } = inject();
 const chai = require('chai');
 
 //common variables
-let payload, addPetResponse, findPetResponse, delPetResponse;
+let payload, formPayload, addPetResponse, findPetResponse, delPetResponse, updatePetFormResponse;
 //---------------------------------------------------------GIVEN REQUESTS------------------------------------------------//
 Given('I have a pet for sale', async () => {
     payload = await PetService.PetJson();
@@ -49,6 +49,19 @@ When('I update the pet', async () => {
     addPetResponse = await PetService.UpdatePetPut(payload)
 });
 
+
+When('I update the pet using a form', async () => {
+    formPayload = {
+        name: payload.name,
+        status: payload.status
+    }
+    updatePetFormResponse = await PetService.UpdatePetForm(formPayload, addPetResponse.data.id)
+});
+
+When('I update the pet with id {string}, using a form', async (id) => {
+    updatePetFormResponse = await PetService.UpdatePetForm(formPayload, id)
+});
+
 When('I Delete the pet', async () => {
     //reusing addPetResponse because assertions between update and add pet are the same
     delPetResponse = await PetService.DeletePet(addPetResponse.data.id)
@@ -56,7 +69,7 @@ When('I Delete the pet', async () => {
 
 When('I Delete a pet with id {string}', async (id) => {
     //reusing addPetResponse because assertions between update and add pet are the same
-    delPetResponse = await PetService.DeletePet(id) 
+    delPetResponse = await PetService.DeletePet(id)
 });
 //---------------------------------------------------------THEN STEPS------------------------------------------------//
 Then('The pet request is successful with status {int}', async (status) => {
@@ -76,7 +89,7 @@ Then('The pet request is successful with status {int}', async (status) => {
 Then('The Get pet request is successful with pet status {string}', async (status) => {
     I.addMochawesomeContext({ title: "FIND PET REQUEST RESPONSE", value: findPetResponse.data });
 
-    chai.assert.equal(findPetResponse.status, 200, `Status code is 200`)
+    chai.assert.equal(findPetResponse.status, 200, `Status code is ${findPetResponse.status}`)
     chai.assert.equal(findPetResponse.data.id, payload.id, `ID in response body is ${findPetResponse.data.id}`)
     chai.assert.equal(findPetResponse.data.category.id, payload.category.id, `Category ID in response body is ${findPetResponse.data.category.id}`)
     chai.assert.equal(findPetResponse.data.category.name, payload.category.name, `Category Name in response body is ${findPetResponse.data.category.name}`)
@@ -85,6 +98,15 @@ Then('The Get pet request is successful with pet status {string}', async (status
     chai.assert.equal(findPetResponse.data.tags[0].id, payload.tags[0].id, `Tag ID in response body is ${findPetResponse.data.tags[0].id}`)
     chai.assert.equal(findPetResponse.data.tags[0].name, payload.tags[0].name, `Tag Name in response body is ${findPetResponse.data.tags[0].name}`)
     chai.assert(findPetResponse.data.status === status, `Status in response body is ${findPetResponse.data.status}`)
+});
+
+Then('The Get Pet Response only has pets that are {string}', async (status) => {
+    chai.assert.equal(findPetResponse.status, 200, `Status code is 200`)
+
+    for (let i = 0; i < findPetResponse.data.length; i++) {
+        I.addMochawesomeContext({ title: "FIND PET REQUEST RESPONSE", value: findPetResponse.data[i] });
+        chai.assert(findPetResponse.data[i].status === status, `Status in response body is ${findPetResponse.data.status}`)
+    }
 });
 
 Then('The Delete response was successful', async () => {
@@ -102,47 +124,47 @@ Then('The Delete response was not successful', async () => {
     chai.assert.equal(delPetResponse.status, 404, `Status code is ${delPetResponse.status}`)
 });
 
-Then('The Delete response was successful', async () => {
-    I.addMochawesomeContext({ title: "DELETE PET RESPONSE", value: delPetResponse.data });
-
-    chai.assert.equal(delPetResponse.status, 200, `Status code is ${findPetResponse.status}`)
-    chai.assert.equal(delPetResponse.data.code, 200, `Code in response body is ${delPetResponse.data.code}`)
-    chai.assert.equal(delPetResponse.data.type, "unknown", `Category ID in response body is ${delPetResponse.data.type}`)
-    chai.assert.equal(delPetResponse.data.message, addPetResponse.data.id, `Category Name in response body is ${delPetResponse.data.message}`)
-});
-
-Then('The Get Pet Response only has pets that are {string}', async (status) => {
-    chai.assert.equal(findPetResponse.status, 200, `Status code is 200`)
-
-    for (let i = 0; i < findPetResponse.data.length; i++) {
-        I.addMochawesomeContext({ title: "FIND PET REQUEST RESPONSE", value: findPetResponse.data[i] });
-        chai.assert(findPetResponse.data[i].status === status, `Status in response body is ${findPetResponse.data.status}`)
-    }
-});
-
 Then('The response has error code {int} with message {string}, type {string} and status {int}', async (errorCode, errorMessage, errorType, status) => {
     I.addMochawesomeContext({ title: "REQUEST RESPONSE", value: addPetResponse.data });
 
     chai.assert.equal(addPetResponse.status, status, `Status is ${addPetResponse.status}`)
     chai.assert.equal(addPetResponse.data.code, errorCode, `Error code is ${addPetResponse.data.code}`)
-    chai.assert.equal(addPetResponse.data.type, errorType, `Type is ${errorType}`)
+    chai.assert.equal(addPetResponse.data.type, errorType, `Type is ${addPetResponse.data.type}`)
     chai.assert.equal(addPetResponse.data.message, errorMessage, `Error Message is ${addPetResponse.data.message}`)
+});
+
+Then('The update pet with form response has error code {int} with message {string}, type {string} and status {int}', async (errorCode, errorMessage, errorType, status) => {
+    I.addMochawesomeContext({ title: "UPDATE PET WITH FORM RESPONSE", value: updatePetFormResponse.data });
+
+    chai.assert.equal(updatePetFormResponse.status, status, `Status is ${updatePetFormResponse.status}`)
+    chai.assert.equal(updatePetFormResponse.data.code, errorCode, `Error code is ${updatePetFormResponse.data.code}`)
+    chai.assert.equal(updatePetFormResponse.data.type, errorType, `Type is ${updatePetFormResponse.data.type}`)
+    chai.assert.equal(updatePetFormResponse.data.message, errorMessage, `Error Message is ${updatePetFormResponse.data.message}`)
 });
 
 Then('The Get Pet Response has error code {int} with message {string}, type {string} and status {int}', async (errorCode, errorMessage, errorType, status) => {
     I.addMochawesomeContext({ title: "GET PET RESPONSE", value: findPetResponse.data });
 
     chai.assert.equal(findPetResponse.status, status, `Status is ${findPetResponse.status}`)
-    chai.assert.equal(findPetResponse.data.code, errorCode, `Error code is ${findPetResponse.data.errorCode}`)
-    chai.assert.equal(findPetResponse.data.type, errorType, `Type is ${findPetResponse.data.errorType}`)
-    chai.assert.equal(findPetResponse.data.message, errorMessage, `Error Message is ${findPetResponse.data.errorMessage}`)
+    chai.assert.equal(findPetResponse.data.code, errorCode, `Error code is ${findPetResponse.data.code}`)
+    chai.assert.equal(findPetResponse.data.type, errorType, `Type is ${findPetResponse.data.type}`)
+    chai.assert.equal(findPetResponse.data.message, errorMessage, `Error Message is ${findPetResponse.data.message}`)
 });
 
 Then('The Delete Pet Response has error code {int} with message {string}, type {string} and status {int}', async (errorCode, errorMessage, errorType, status) => {
     I.addMochawesomeContext({ title: "DELETE PET RESPONSE", value: delPetResponse.data });
 
     chai.assert.equal(delPetResponse.status, status, `Status is ${delPetResponse.status}`)
-    chai.assert.equal(delPetResponse.data.code, errorCode, `Error code is ${delPetResponse.data.errorCode}`)
-    chai.assert.equal(delPetResponse.data.type, errorType, `Type is ${delPetResponse.data.errorType}`)
-    chai.assert.equal(delPetResponse.data.message, errorMessage, `Error Message is ${delPetResponse.data.errorMessage}`)
+    chai.assert.equal(delPetResponse.data.code, errorCode, `Error code is ${delPetResponse.data.code}`)
+    chai.assert.equal(delPetResponse.data.type, errorType, `Type is ${delPetResponse.data.type}`)
+    chai.assert.equal(delPetResponse.data.message, errorMessage, `Error Message is ${delPetResponse.data.message}`)
+});
+
+Then('The update pet with form request is successful', async (newName, newStatus) => {
+    I.addMochawesomeContext({ title: "UPDATE PET WITH FORM RESPONSE", value: updatePetFormResponse.data });
+
+    chai.assert.equal(updatePetFormResponse.status, 200, `Status code is ${updatePetFormResponse.status}`)
+    chai.assert.equal(updatePetFormResponse.data.code, 200, `Error code is ${updatePetFormResponse.data.code}`)
+    chai.assert.equal(updatePetFormResponse.data.type, "unknown", `Type is ${updatePetFormResponse.data.type}`)
+    chai.assert.equal(updatePetFormResponse.data.message, payload.id, `Error Message is ${updatePetFormResponse.data.message}`)
 });

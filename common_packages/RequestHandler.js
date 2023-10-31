@@ -25,7 +25,7 @@ module.exports = function () {
         },
 
         Put: async function (data) {
-            I.logApiRequest(data.payload, `PATCH ${data.endpoint}`);
+            I.logApiRequest(data.payload, `PUT ${data.endpoint}`);
             try {
                 const response = await I.sendPutRequest(data.endpoint, data.payload, data.headers);
                 return response;

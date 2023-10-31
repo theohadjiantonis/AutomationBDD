@@ -3,17 +3,17 @@ Feature: Find Pet by ID Scenarios
   As a username
   I want to be able to make a withdraw
 
-#Scenario: Delete pet that exists
-#    #Generates Json object
-#	Given I have a pet for sale
-#    #Sends request
-#	When I send the pet request
-#	And I Delete the pet
-#	And I look for the pet
-#    #Delete response assertions
-#	Then The Delete response was successful
-#	#Get Response assertions
-#	And The Get Pet Response has error code 1 with message 'Pet not found', type "error" and status 404
+Scenario: Delete pet that exists
+    #Generates Json object
+	Given I have a pet for sale
+    #Sends request
+	When I send the pet request
+	And I Delete the pet
+	And I look for the pet
+    #Delete response assertions
+	Then The Delete response was successful
+	#Get Response assertions
+	And The Get Pet Response has error code 1 with message 'Pet not found', type "error" and status 404
 
 Scenario: Delete pet that doesn't exists
     #Generates Json object

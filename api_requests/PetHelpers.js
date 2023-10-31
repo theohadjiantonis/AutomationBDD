@@ -4,10 +4,9 @@ const petSchema = require('.././JsonSchemas/pet_schema.json');
 
 //Generate a Json from the schema
 const PetJson = async () => {
-    I.addMochawesomeContext({ title: 'GENERATING PET JSON', value: ""});
+    I.addMochawesomeContext({ title: 'GENERATING PET JSON....', value: ""});
     try {
         const fakeData = jsf.generate(petSchema);
-        I.addMochawesomeContext({ title: 'PET JSON', value: fakeData });
         return fakeData;
     } catch (error) {
         I.addMochawesomeContext({ title: 'Something went wrong generating the Json:', value: error });
