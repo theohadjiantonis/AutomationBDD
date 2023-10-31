@@ -63,6 +63,9 @@ exports.config = {
         steps: './step_definitions/**/*.js'
     },
     plugins: {
+        screenshotOnFail: {
+            enabled: false
+        },
         retryFailedStep: {
             enabled: true
         }

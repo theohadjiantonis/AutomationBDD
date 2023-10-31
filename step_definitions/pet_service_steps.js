@@ -14,6 +14,9 @@ Given("Its' {string} is {string}", async (propertyPath, value) => {
     //spliting the path to the object and saving it in an array 
     const pathArray = propertyPath.split('.');
 
+    //parse to int if possible
+    value = await Common.parseToInt(value);
+
     //changing the property based on the path
     payload = await Common.replacePropertyValue(payload, pathArray, pathArray[pathArray.length - 1], value);
 });
